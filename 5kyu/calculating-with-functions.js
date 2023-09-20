@@ -80,5 +80,3 @@ function times(r) {
 function dividedBy(r) {
     return ` / ${r}`;
 }
-
-console.log(eight(plus(two())));
