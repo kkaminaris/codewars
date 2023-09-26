@@ -41,91 +41,109 @@ function Connect4 (){
 Connect4.prototype.play = function (col){
   
   function checkBox(i, j) {
-    if (field[i]?.[j]==pog)
+    if (field[i]?.[j]==pog && direction)
       count++;
+    else {
+      direction = 0;
+    }
     return;
   }  
   
-  console.log('move number ' + game.moveNo);
-  game.moveNo++;
-  const pog = game.player1 ? 'X' : 'O';
-  const field = game.grid;
+  console.log('move number ' + this.moveNo);
+  console.log("Player " + (this.player1 ? '1' : '2') + " has a turn");
+  console.log(col);
+  this.moveNo++;
+  const pog = this.player1 ? 'X' : 'O';
+  const field = this.grid;
   let pogPlace = [];
   let count = 0;
+  let direction = 1;
   
-  if (game.gameOver)
+  if (this.gameOver) {
+    console.log("Game has finished!");
     return "Game has finished!";
+  }
   
   // Place pog  
   for (let i=5; i>=0; i--) {
     if (field[i][col] == '0'){
       field[i][col] = pog;
-      if (i<game.higherPog)
-        game.higherPog = i;
+      if (i<this.higherPog)
+      this.higherPog = i;
       pogPlace.push(i, col);
       break;
     }
-    if (i==0)
+    if (i==0) {
+      console.log("Column full!");
       return "Column full!";
+    }
   }
   
   // Check 4s
   // Check diagonal
   count = 0;
+  direction = 1;
   checkBox(pogPlace[0]+1, pogPlace[1]-1);
   checkBox(pogPlace[0]+2, pogPlace[1]-2);
   checkBox(pogPlace[0]+3, pogPlace[1]-3);
+  direction = 1;
   checkBox(pogPlace[0]-1, pogPlace[1]+1);
   checkBox(pogPlace[0]-2, pogPlace[1]+2);
   checkBox(pogPlace[0]-3, pogPlace[1]+3);
   if (count>2) {
-    game.gameOver = true;
-    return "Player " + (game.player1 ? '1' : '2') + " wins!"
+    this.gameOver = true;
+    console.log('diagonal');
+    console.log("Player " + (this.player1 ? '1' : '2') + " wins!");
+    return "Player " + (this.player1 ? '1' : '2') + " wins!"
   }
   count = 0;
+  direction = 1;
   checkBox(pogPlace[0]+1, pogPlace[1]+1);
   checkBox(pogPlace[0]+2, pogPlace[1]+2);
   checkBox(pogPlace[0]+3, pogPlace[1]+3);
+  direction = 1;
   checkBox(pogPlace[0]-1, pogPlace[1]-1);
   checkBox(pogPlace[0]-2, pogPlace[1]-2);
   checkBox(pogPlace[0]-3, pogPlace[1]-3);
   if (count==3) {
-    game.gameOver = true;
-    return "Player " + (game.player1 ? '1' : '2') + " wins!"
+    this.gameOver = true;
+    console.log('diagonal');
+    console.log("Player " + (this.player1 ? '1' : '2') + " wins!");
+    return "Player " + (this.player1 ? '1' : '2') + " wins!"
   }
   
   
   // Check vertical
   count = 0;
+  direction = 1;
   checkBox(pogPlace[0]+1, pogPlace[1]);
   checkBox(pogPlace[0]+2, pogPlace[1]);
   checkBox(pogPlace[0]+3, pogPlace[1]);
   if (count==3) {
-    game.gameOver = true;
-    return "Player " + (game.player1 ? '1' : '2') + " wins!"
+    this.gameOver = true;
+    console.log('vertical');
+    console.log("Player " + (this.player1 ? '1' : '2') + " wins!");
+    return "Player " + (this.player1 ? '1' : '2') + " wins!"
   }
   // Check horizontal
   count = 0;
+  direction = 1;
   checkBox(pogPlace[0], pogPlace[1]-1);
   checkBox(pogPlace[0], pogPlace[1]-2);
   checkBox(pogPlace[0], pogPlace[1]-3);
-  if (count==3) {
-    game.gameOver = true;
-    return "Player " + (game.player1 ? '1' : '2') + " wins!"
-  }
-  count = 0;
+  direction = 1;
   checkBox(pogPlace[0], pogPlace[1]+1);
   checkBox(pogPlace[0], pogPlace[1]+2);
   checkBox(pogPlace[0], pogPlace[1]+3);
-  if (count==3) {
-    game.gameOver = true;
-    return "Player " + (game.player1 ? '1' : '2') + " wins!"
+  if (count>2) {
+    this.gameOver = true;
+    console.log('horizontal');
+    console.log("Player " + (this.player1 ? '1' : '2') + " wins!");
+    return "Player " + (this.player1 ? '1' : '2') + " wins!"
   }
   
   // Give turn
-  game.player1 = !game.player1;
-  console.log("Player " + (game.player1 ? '2' : '1') + " has a turn");
-  console.log(col);
-  console.table(game.grid);
-  return "Player " + (game.player1 ? '2' : '1') + " has a turn";
+  this.player1 = !this.player1;
+  console.table(this.grid);
+  return "Player " + (this.player1 ? '2' : '1') + " has a turn";
 };
