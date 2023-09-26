@@ -28,103 +28,104 @@
 // My solution
 
 function Connect4 (){
-    // Code Here
-    Connect4.prototype.moveNo = 1;
-    Connect4.prototype.gameOver = false;
-    Connect4.prototype.grid = new Array(6).fill(0).map(() => new Array(7).fill(0));
-    Connect4.prototype.player1 = true;
+  // Code Here
+  Connect4.prototype.moveNo = 1;
+  Connect4.prototype.gameOver = false;
+  Connect4.prototype.grid = new Array(6).fill(0).map(() => new Array(7).fill(0));
+  Connect4.prototype.player1 = true;
+
+  console.log('new game');
+  console.log(Connect4.prototype.moveNo);
+};
+
+Connect4.prototype.play = function (col){
   
-    console.log('new game');
-    console.log(Connect4.prototype.moveNo);
-  };
+  function checkBox(i, j) {
+    if (field[i]?.[j]==pog)
+      count++;
+    return;
+  }  
   
-  Connect4.prototype.play = function (col){
-    // Code Here
-    //if (game.moveNo==1)
-    console.log('move number ' + game.moveNo);
-    game.moveNo++;
-    const pog = game.player1 ? 'X' : 'O';
-    const field = game.grid;
-    let pogPlace = [];
-    
-    if (game.gameOver)
-      return "Game has finished!";
-    
-    // Place pog  
-    for (let i=5; i>=0; i--) {
-      if (field[i][col] == '0'){
-        field[i][col] = pog;
-        pogPlace.push(i, col);
-        break;
-      }
-      if (i==0)
-        return "Column full!";
+  console.log('move number ' + game.moveNo);
+  game.moveNo++;
+  const pog = game.player1 ? 'X' : 'O';
+  const field = game.grid;
+  let pogPlace = [];
+  let count = 0;
+  
+  if (game.gameOver)
+    return "Game has finished!";
+  
+  // Place pog  
+  for (let i=5; i>=0; i--) {
+    if (field[i][col] == '0'){
+      field[i][col] = pog;
+      if (i<game.higherPog)
+        game.higherPog = i;
+      pogPlace.push(i, col);
+      break;
     }
-    
-    // Check 4s
-    if (pogPlace[0]<3) {
-      // Check vertical
-      for (let i=0; i<4; i++) {
-        if (field[pogPlace[0]+i][pogPlace[1]] != pog){
-          break;
-        }
-        if (i==3) {
-          game.gameOver = true;
-          return "Player " + (game.player1 ? '1' : '2') + " wins!"
-        }
-      }
-      // Check diagonal
-      if (pogPlace[1]>2) {
-        for (let i=0; i<4; i++) {
-          if (field[pogPlace[0]+i][pogPlace[1]-i] != pog){
-            break;
-          }
-          if (i==3) {
-            game.gameOver = true;
-            return "Player " + (game.player1 ? '1' : '2') + " wins!"
-          }
-        }
-      }
-      if (pogPlace[1]<4) {
-        for (let i=0; i<4; i++) {
-          if (field[pogPlace[0]+i][pogPlace[1]+i] != pog){
-            break;
-          }
-          if (i==3) {
-            game.gameOver = true;
-            return "Player " + (game.player1 ? '1' : '2') + " wins!"
-          }
-        }
-      }
-    }
-    // Check horizontal
-    if (pogPlace[1]>2) {
-      for (let i=0; i<4; i++) {
-        if (field[pogPlace[0]][pogPlace[1]-i] != pog){
-          break;
-        }
-        if (i==3) {
-          game.gameOver = true;
-          return "Player " + (game.player1 ? '1' : '2') + " wins!"
-        }
-      }
-    }
-    if (pogPlace[1]<4) {
-      for (let i=0; i<4; i++) {
-        if (field[pogPlace[0]][pogPlace[1]+i] != pog){
-          break;
-        }
-        if (i==3) {
-          game.gameOver = true;
-          return "Player " + (game.player1 ? '1' : '2') + " wins!"
-        }
-      }
-    }
-    
-    // Give turn
-    game.player1 = !game.player1;
-    console.log("Player " + (game.player1 ? '2' : '1') + " has a turn");
-    console.log(col);
-    console.table(game.grid);
-    return "Player " + (game.player1 ? '2' : '1') + " has a turn";
+    if (i==0)
+      return "Column full!";
+  }
+  
+  // Check 4s
+  // Check diagonal
+  count = 0;
+  checkBox(pogPlace[0]+1, pogPlace[1]-1);
+  checkBox(pogPlace[0]+2, pogPlace[1]-2);
+  checkBox(pogPlace[0]+3, pogPlace[1]-3);
+  checkBox(pogPlace[0]-1, pogPlace[1]+1);
+  checkBox(pogPlace[0]-2, pogPlace[1]+2);
+  checkBox(pogPlace[0]-3, pogPlace[1]+3);
+  if (count>2) {
+    game.gameOver = true;
+    return "Player " + (game.player1 ? '1' : '2') + " wins!"
+  }
+  count = 0;
+  checkBox(pogPlace[0]+1, pogPlace[1]+1);
+  checkBox(pogPlace[0]+2, pogPlace[1]+2);
+  checkBox(pogPlace[0]+3, pogPlace[1]+3);
+  checkBox(pogPlace[0]-1, pogPlace[1]-1);
+  checkBox(pogPlace[0]-2, pogPlace[1]-2);
+  checkBox(pogPlace[0]-3, pogPlace[1]-3);
+  if (count==3) {
+    game.gameOver = true;
+    return "Player " + (game.player1 ? '1' : '2') + " wins!"
+  }
+  
+  
+  // Check vertical
+  count = 0;
+  checkBox(pogPlace[0]+1, pogPlace[1]);
+  checkBox(pogPlace[0]+2, pogPlace[1]);
+  checkBox(pogPlace[0]+3, pogPlace[1]);
+  if (count==3) {
+    game.gameOver = true;
+    return "Player " + (game.player1 ? '1' : '2') + " wins!"
+  }
+  // Check horizontal
+  count = 0;
+  checkBox(pogPlace[0], pogPlace[1]-1);
+  checkBox(pogPlace[0], pogPlace[1]-2);
+  checkBox(pogPlace[0], pogPlace[1]-3);
+  if (count==3) {
+    game.gameOver = true;
+    return "Player " + (game.player1 ? '1' : '2') + " wins!"
+  }
+  count = 0;
+  checkBox(pogPlace[0], pogPlace[1]+1);
+  checkBox(pogPlace[0], pogPlace[1]+2);
+  checkBox(pogPlace[0], pogPlace[1]+3);
+  if (count==3) {
+    game.gameOver = true;
+    return "Player " + (game.player1 ? '1' : '2') + " wins!"
+  }
+  
+  // Give turn
+  game.player1 = !game.player1;
+  console.log("Player " + (game.player1 ? '2' : '1') + " has a turn");
+  console.log(col);
+  console.table(game.grid);
+  return "Player " + (game.player1 ? '2' : '1') + " has a turn";
 };
