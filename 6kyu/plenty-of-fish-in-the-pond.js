@@ -125,7 +125,7 @@ function fish(shoal){
     [...shoal].forEach(e => fish[e]++);
     for (let i=1; i<=size; i++) {
       totalFish += (fish[i] || 0) * i;
-      size = (Math.sqrt(2 * totalFish + 1) + 1) / 2 | 0;
+      size = (Math.sqrt(2 * totalFish + 1) + 1) / 2 | 0; // "| 0" converts to integer eqv to Math.floor()
       console.log(totalFish, size);
     }
     return size;
