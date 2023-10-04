@@ -63,8 +63,6 @@ function escape(carpark){
     // Code here
     let floor = carpark.findIndex(e => e.includes(2));
     let position = carpark[floor].indexOf(2);
-    let right = 0;
-    let left = 0;
     let down = 1;
     let path = [];
     for (let i=floor; i<carpark.length; i++) {
@@ -78,7 +76,7 @@ function escape(carpark){
         path.push(`D${down}`);
       
       if (i==carpark.length-1) {
-        right = carpark[i].length-1 - position;
+        let right = carpark[i].length-1 - position;
         if (right)
           path.push(`R${right}`);
         console.log(path);
