@@ -19,12 +19,15 @@
 // My solution
 
 function doMath(string) {
-    return Math.round(string.split(" ").sort((a, b) => {
-      if (a.match(/[a-z]/i) < b.match(/[a-z]/i))
-        return -1;
-      else
-        return 1;
-    }).map(a => a.match(/[^a-z]/gi).join(``)).reduce((a, n, i) => {
-      return (i%4==1)? +a + +n : (i%4==2)? a - n : (i%4==3)? a * n : a / n;
+    return Math.round(string
+        .split(" ")
+        .sort((a, b) => {
+            if (a.match(/[a-z]/i) < b.match(/[a-z]/i))
+                return -1;
+            else
+                return 1;
+         })
+        .map(a => a.match(/[^a-z]/gi).join(``)).reduce((a, n, i) => {
+            return (i%4==1)? +a + +n : (i%4==2)? a - n : (i%4==3)? a * n : a / n;
     }));
 }
