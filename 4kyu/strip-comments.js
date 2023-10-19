@@ -22,5 +22,5 @@
 // My solution
 
 function solution(input, markers) {
-    return input.split('\n').map(a => a.match(`[^${markers.join('')}]*`)[0].replace(/ *$/, "")).join('\n');
+    return input.split('\n').map(a => a.match(`[^${markers.join('')}]*`)[0].trimEnd()).join('\n');
 };
