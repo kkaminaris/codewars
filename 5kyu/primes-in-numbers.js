@@ -8,17 +8,10 @@
 
 // My solution
 
-const isPrime = (n) => {
-    for (let i=2; i<=n/2; i++)
-      if (n%i===0)
-        return false;
-    return true;
-}
-  
-  function primeFactors(n){
+function primeFactors(n){
     let factors = {};
     for (let i=2; i<=n; i++) {
-      if (n%i===0 && isPrime(i)) {
+      if (n%i===0) {
         n = n/i;
         factors[i] ? factors[i]++ : factors[i]=1;
         i--;
